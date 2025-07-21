@@ -208,6 +208,11 @@ INSERT INTO order_details (order_id, product_name, quantity, unit_price, discoun
 -- SELECT SUM(duration_minutes) FROM films WHERE title LIKE 'Th%';
 -- SELECT COUNT(*) FROM films WHERE title LIKE 'Th%';
 
-
-
+/* LESSON 15 - Group By, Having */
+-- SELECT rating, COUNT(*) FROM films GROUP BY rating;
+-- SELECT genre, COUNT(*) FROM films GROUP BY genre;
+-- SELECT manager_id, SUM(salary) FROM employees GROUP BY manager_id;
+-- SELECT order_id, SUM(discount) FROM order_details WHERE order_id > 105 GROUP BY order_id ORDER BY SUM(discount) LIMIT 5;
+-- SELECT order_id, SUM(unit_price) FROM order_details GROUP BY order_id HAVING SUM(unit_price) > 20 ORDER BY SUM(unit_price) DESC;
+SELECT rating, AVG(duration_minutes) from films GROUP BY rating HAVING AVG(duration_minutes) > 150;
 
