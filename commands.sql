@@ -46,6 +46,7 @@ CREATE TABLE order_details (
     unit_price NUMERIC(10, 2) CHECK (unit_price >= 0),
     discount NUMERIC(5, 2) DEFAULT 0.00 CHECK (discount >= 0 AND discount <= 100),
     total_price NUMERIC(12, 2) GENERATED ALWAYS AS (quantity * unit_price * (1 - discount / 100)) STORED,
+    ship_country VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -102,27 +103,27 @@ INSERT INTO employees (first_name, last_name, email, phone_number, hire_date, jo
 ('Quincy', 'Owens', 'quincy.owens@example.com', '123-456-7808', '2018-03-01', 'Customer Success Manager', 'Customer Support', 80000.00, 18, 'Denver'),
 ('Rachel', 'Perez', 'rachel.perez@example.com', '123-456-7809', '2020-04-04', 'Graphic Designer', 'Design', 60000.00, 3, 'Boston');
 
-INSERT INTO order_details (order_id, product_name, quantity, unit_price, discount) VALUES
-(101, 'Wireless Mouse', 2, 25.00, 10.00),
-(101, 'Keyboard', 1, 45.00, 5.00),
-(102, 'USB-C Cable', 3, 10.00, 0.00),
-(102, 'Laptop Stand', 1, 30.00, 15.00),
-(103, 'Monitor 24-inch', 2, 150.00, 10.00),
-(104, 'Headphones', 1, 70.00, 0.00),
-(105, 'External SSD 500GB', 1, 90.00, 5.00),
-(105, 'HDMI Cable', 2, 12.50, 0.00),
-(106, 'Webcam', 1, 55.00, 20.00),
-(106, 'Microphone', 1, 80.00, 10.00),
-(107, 'Desk Lamp', 2, 35.00, 0.00),
-(108, 'Wireless Charger', 1, 40.00, 5.00),
-(109, 'Laptop Backpack', 1, 60.00, 10.00),
-(110, 'Bluetooth Speaker', 1, 85.00, 15.00),
-(111, 'Graphics Tablet', 1, 120.00, 0.00),
-(111, 'Stylus Pen', 1, 25.00, 0.00),
-(112, 'Surge Protector', 3, 18.00, 0.00),
-(113, 'Smartphone Stand', 2, 14.00, 10.00),
-(114, 'Ergonomic Chair', 1, 250.00, 20.00),
-(115, 'Foot Rest', 1, 35.00, 0.00);
+INSERT INTO order_details (order_id, product_name, quantity, unit_price, discount, ship_country) VALUES
+(101, 'Wireless Mouse', 2, 25.00, 10.00, 'France'),
+(101, 'Keyboard', 1, 45.00, 5.00, 'Germany'),
+(102, 'USB-C Cable', 3, 10.00, 0.00, 'Brazil'),
+(102, 'Laptop Stand', 1, 30.00, 15.00, 'France'),
+(103, 'Monitor 24-inch', 2, 150.00, 10.00, 'Belgium'),
+(104, 'Headphones', 1, 70.00, 0.00, 'Brazil'),
+(105, 'External SSD 500GB', 1, 90.00, 5.00, 'Switzerland'),
+(105, 'HDMI Cable', 2, 12.50, 0.00, 'Switzerland'),
+(106, 'Webcam', 1, 55.00, 20.00, 'Brazil'),
+(106, 'Microphone', 1, 80.00, 10.00, 'Venezuela'),
+(107, 'Desk Lamp', 2, 35.00, 0.00, 'Austria'),
+(108, 'Wireless Charger', 1, 40.00, 5.00, 'Mexico'),
+(109, 'Laptop Backpack', 1, 60.00, 10.00, 'Germany'),
+(110, 'Bluetooth Speaker', 1, 85.00, 15.00, 'USA'),
+(111, 'Graphics Tablet', 1, 120.00, 0.00, 'USA'),
+(111, 'Stylus Pen', 1, 25.00, 0.00, 'France'),
+(112, 'Surge Protector', 3, 18.00, 0.00, 'Belgium'),
+(113, 'Smartphone Stand', 2, 14.00, 10.00, 'Turkey'),
+(114, 'Ergonomic Chair', 1, 250.00, 20.00, 'Azerbaijan'),
+(115, 'Foot Rest', 1, 35.00, 0.00, 'Russia');
 
 
 -- fetch 
@@ -214,5 +215,28 @@ INSERT INTO order_details (order_id, product_name, quantity, unit_price, discoun
 -- SELECT manager_id, SUM(salary) FROM employees GROUP BY manager_id;
 -- SELECT order_id, SUM(discount) FROM order_details WHERE order_id > 105 GROUP BY order_id ORDER BY SUM(discount) LIMIT 5;
 -- SELECT order_id, SUM(unit_price) FROM order_details GROUP BY order_id HAVING SUM(unit_price) > 20 ORDER BY SUM(unit_price) DESC;
-SELECT rating, AVG(duration_minutes) from films GROUP BY rating HAVING AVG(duration_minutes) > 150;
+-- SELECT rating, AVG(duration_minutes) FROM films GROUP BY rating HAVING AVG(duration_minutes) > 150;
+
+/* LESSON 16 - Practice III */
+-- SELECT ship_country, COUNT(*) FROM order_details GROUP BY ship_country ORDER BY COUNT(*);
+-- SELECT quantity, COUNT(*) FROM order_details GROUP BY quantity ORDER BY COUNT(*) DESC LIMIT 1;
+-- SELECT product_name, SUM(unit_price) FROM order_details GROUP BY product_name ORDER BY SUM(unit_price) DESC LIMIT 1;
+
+-- SELECT genre, COUNT(*) AS film_count FROM films GROUP BY genre ORDER BY film_count DESC LIMIT 1;
+-- SELECT title FROM films WHERE genre = 'Drama' ORDER BY title DESC LIMIT 1; 
+SELECT title
+FROM films 
+WHERE genre = (
+  SELECT genre 
+  FROM (
+    SELECT genre, COUNT(*) AS film_count 
+    FROM films 
+    GROUP BY genre 
+    ORDER BY film_count DESC 
+    LIMIT 1
+  ) AS most_common_genre
+)
+ORDER BY title DESC 
+LIMIT 1;
+
 
