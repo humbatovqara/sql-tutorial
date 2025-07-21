@@ -199,6 +199,15 @@ INSERT INTO order_details (order_id, product_name, quantity, unit_price, discoun
 -- SELECT COUNT(*) FROM employees WHERE city = 'New York';
 -- SELECT * FROM employees WHERE department = 'IT' ORDER BY "salary" DESC LIMIT 1 OFFSET 1;
 -- SELECT COUNT(DISTINCT department) FROM employees;
-SELECt unit_price * quantity AS total_price FROM order_details ORDER BY total_price ASC LIMIT 1;
+-- SELECT unit_price * quantity AS total_price FROM order_details ORDER BY total_price ASC LIMIT 1;
+
+/* LESSON 14 - Aggregate Functions, Max, Min, Sum, Avg, Count */
+-- SELECT AVG(duration_minutes) FROM films WHERE rating = 'R';
+-- SELECT MAX(duration_minutes) FROM films WHERE rating = 'R';
+-- SELECT MAX(duration_minutes), MIN(release_year) FROM films WHERE rating = 'R';
+-- SELECT SUM(duration_minutes) FROM films WHERE title LIKE 'Th%';
+-- SELECT COUNT(*) FROM films WHERE title LIKE 'Th%';
+
+
 
 
