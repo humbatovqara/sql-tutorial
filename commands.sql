@@ -235,9 +235,46 @@ INSERT INTO order_details (order_id, product_name, quantity, unit_price, discoun
   "id" SERIAL PRIMARY KEY, -- UNIQUE, NOT NULL, CHECK, DEFAULT, FOREIGN KEY
   title VARCHAR(255) NOT NULL, -- CHAR, 
   author_name VARCHAR(100) NOT NULL,
-  page_number INTEGER
+  page_number INT
 ); */
 
 -- DROP TABLE book;
 
+/* LESSON 19 - Insert into, Primary key, Foreign key  */
+/* INSERT INTO table_name (col1, col2, col3, ...) 
+VALUES 
+  (val1, val2, val3, ...)
+  (val1, val2, val3, ...)
+  ...
+  (val1, val2, val3, ...);
+*/
+
+CREATE TABLE author (
+  "id" SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  birthdate DATE
+); 
+
+CREATE TABLE book (
+  "id" SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  author_id INT REFERENCES author(id), -- Foreign key
+  page_number INT
+);
+
+INSERT INTO author (name, birthdate)
+VALUES 
+  ('Author 1', '1899-04-02'),
+  ('Author 2', '1889-03-27'),
+  ('Author 3', '1910-03-13');
+
+INSERT INTO book (title, author_id, page_number)
+VALUES 
+  ('Title 1', 1, 220),
+  ('Title 2', 2, 155),
+  ('Title 3', 3, 244),
+  ('Title 4', 1, 220);
+  
+SELECT * FROM author;
+SELECT * FROM book JOIN author ON author.id = book.author_id;
 
