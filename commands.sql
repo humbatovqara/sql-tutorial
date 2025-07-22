@@ -224,19 +224,20 @@ INSERT INTO order_details (order_id, product_name, quantity, unit_price, discoun
 
 -- SELECT genre, COUNT(*) AS film_count FROM films GROUP BY genre ORDER BY film_count DESC LIMIT 1;
 -- SELECT title FROM films WHERE genre = 'Drama' ORDER BY title DESC LIMIT 1; 
-SELECT title
-FROM films 
-WHERE genre = (
-  SELECT genre 
-  FROM (
-    SELECT genre, COUNT(*) AS film_count 
-    FROM films 
-    GROUP BY genre 
-    ORDER BY film_count DESC 
-    LIMIT 1
-  ) AS most_common_genre
-)
-ORDER BY title DESC 
-LIMIT 1;
+
+/* LESSON 18 - Create Drop DB, Constraint  */
+/* CREATE TABLE table_name (
+  col1 datatype (constraint),
+  col2 datatype (constraint)
+)*/
+
+/* CREATE TABLE book (
+  "id" SERIAL PRIMARY KEY, -- UNIQUE, NOT NULL, CHECK, DEFAULT, FOREIGN KEY
+  title VARCHAR(255) NOT NULL, -- CHAR, 
+  author_name VARCHAR(100) NOT NULL,
+  page_number INTEGER
+); */
+
+-- DROP TABLE book;
 
 
